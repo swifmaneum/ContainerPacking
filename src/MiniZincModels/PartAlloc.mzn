@@ -17,6 +17,9 @@ array[SLOT] of int: slot_capacity;
 
 array[PART] of var SLOT: allocation;
 
-constraint forall(i in PART) (slot_lengths[allocation[i]] >= lengths[i] /\ slot_widths[allocation[i]] >= widths[i]);
+constraint forall(i in PART) (
+    (slot_lengths[allocation[i]] >= lengths[i] /\ slot_widths[allocation[i]] >= widths[i])
+    \/ (slot_lengths[allocation[i]] >= widths[i] /\ slot_widths[allocation[i]] >= lengths[i])
+);
 
 constraint bin_packing_capa(slot_capacity, allocation, weights);
