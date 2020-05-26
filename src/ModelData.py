@@ -2,24 +2,14 @@ class ModelData(object):
 
     def __init__(self, slots, parts):
         self.n_parts = len(parts)
-        self.lengths = []
-        self.widths = []
-        self.weights = []
-
-        for part in parts:
-            self.lengths.append(part.length)
-            self.widths.append(part.width)
-            self.weights.append(1)
+        self.lengths = list(map(lambda part: part.length, parts))
+        self.widths = list(map(lambda part: part.width, parts))
+        self.weights = list(map(lambda part: 1, parts))
 
         self.n_slots = len(slots)
-        self.slot_lengths = []
-        self.slot_widths = []
-        self.slot_capacity = []
-
-        for slot in slots:
-            self.slot_lengths.append(slot.length)
-            self.slot_widths.append(slot.width)
-            self.slot_capacity.append(slot.capacity)
+        self.slot_lengths = list(map(lambda slot: slot.length, slots))
+        self.slot_widths = list(map(lambda slot: slot.width, slots))
+        self.slot_capacity = list(map(lambda slot: slot.capacity, slots))
 
     def copy_data_to(self, instance):
         for key, value in instance.input.items():
