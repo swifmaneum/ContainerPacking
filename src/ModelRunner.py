@@ -3,7 +3,7 @@ from minizinc import Instance, Model, Solver
 from DataSets import DataSets
 from ModelData import ModelData
 
-model = Model("./MiniZincModels/PartAlloc.mzn")
+model = Model("./MiniZincModels/BinPacking.mzn")
 solver = Solver.lookup("gecode")
 instance = Instance(solver, model)
 
