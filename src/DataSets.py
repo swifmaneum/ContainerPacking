@@ -16,3 +16,11 @@ class DataSets(object):
         return [
             Module(22000, 6000, 3), Module(6000, 6000, 4), Module(14000, 6000, 2)
         ]
+
+    @staticmethod
+    def get_container_modules():
+        """Modules taken from Jens Töpfers bachelor thesis, see Table 5 on page 29"""
+        return [
+            Module(6000, 14200, 4), Module(6000, 900, 5), Module(6000, 900, 5), Module(6000, 20000, 4),
+            Module(6000, 8900, 8), Module(6000, 3200, 8), Module(6000, 12500, 8)
+        ]
