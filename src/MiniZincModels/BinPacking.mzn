@@ -7,19 +7,19 @@ array[PART] of int: lengths;
 array[PART] of int: widths;
 array[PART] of int: weights;
 
-int: n_slots;
-set of int: SLOT = 1..n_slots;
+int: n_modules;
+set of int: MODULE = 1..n_modules;
 
-array[SLOT] of int: slot_lengths;
-array[SLOT] of int: slot_widths;
-array[SLOT] of int: slot_capacity;
+array[MODULE] of int: module_lengths;
+array[MODULE] of int: module_widths;
+array[MODULE] of int: module_capacity;
 
 
-array[PART] of var SLOT: allocation;
+array[PART] of var MODULE: allocation;
 
 constraint forall(i in PART) (
-    (slot_lengths[allocation[i]] >= lengths[i] /\ slot_widths[allocation[i]] >= widths[i])
-    \/ (slot_lengths[allocation[i]] >= widths[i] /\ slot_widths[allocation[i]] >= lengths[i])
+    (module_lengths[allocation[i]] >= lengths[i] /\ module_widths[allocation[i]] >= widths[i])
+    \/ (module_lengths[allocation[i]] >= widths[i] /\ module_widths[allocation[i]] >= lengths[i])
 );
 
-constraint bin_packing_capa(slot_capacity, allocation, weights);
+constraint bin_packing_capa(module_capacity, allocation, weights);

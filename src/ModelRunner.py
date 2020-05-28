@@ -7,9 +7,9 @@ model = Model("./MiniZincModels/BinPacking.mzn")
 solver = Solver.lookup("gecode")
 instance = Instance(solver, model)
 
-slots = DataSets.get_demo_slots()
+modules = DataSets.get_demo_modules()
 parts = DataSets.get_demo_parts()
-data = ModelData(slots, parts)
+data = ModelData(modules, parts)
 data.copy_data_to(instance)
 
 print("Solving with " + solver.name + " ...")

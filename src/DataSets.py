@@ -1,4 +1,4 @@
-from Slot import Slot
+from Module import Module
 from Part import Part
 
 
@@ -12,7 +12,7 @@ class DataSets(object):
         ]
 
     @staticmethod
-    def get_demo_slots():
+    def get_demo_modules():
         return [
-            Slot(22000, 6000, 3), Slot(6000, 6000, 4), Slot(14000, 6000, 2)
+            Module(22000, 6000, 3), Module(6000, 6000, 4), Module(14000, 6000, 2)
         ]
