@@ -18,5 +18,9 @@ result = instance.solve()
 if result.solution is not None:
     print("Solved in: " + str(result.statistics["time"]))
     print(result.solution.allocation)
+    if hasattr(result.solution, 'wasted_space'):
+        print(result.solution.wasted_space)
+    if hasattr(result.solution, 'objective'):
+        print(result.solution.objective)
 else:
     print("No solution found")
