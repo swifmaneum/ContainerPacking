@@ -1,5 +1,8 @@
 include "globals.mzn"; 
 
+% ----------------------------------------
+% Input data
+% ----------------------------------------
 int: n_parts;
 set of int: PART = 1..n_parts;
 
@@ -14,9 +17,14 @@ array[MODULE] of int: module_lengths;
 array[MODULE] of int: module_widths;
 array[MODULE] of int: module_capacity;
 
-
+% ----------------------------------------
+% Decision variables
+% ----------------------------------------
 array[PART] of var MODULE: allocation;
 
+% ----------------------------------------
+% Constraints
+% ----------------------------------------
 constraint forall(i in PART) (
     (module_lengths[allocation[i]] >= lengths[i] /\ module_widths[allocation[i]] >= widths[i])
     \/ (module_lengths[allocation[i]] >= widths[i] /\ module_widths[allocation[i]] >= lengths[i])
