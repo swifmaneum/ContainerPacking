@@ -9,6 +9,7 @@ class ModelData(object):
         self.n_modules = len(modules)
         self.module_lengths = list(map(lambda module: module.length, modules))
         self.module_widths = list(map(lambda module: module.width, modules))
+        self.module_juts = list(map(lambda module: module.jut, modules))
         self.module_capacity = list(map(lambda module: module.capacity, modules))
 
     def copy_data_to(self, instance):
