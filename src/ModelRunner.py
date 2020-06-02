@@ -1,14 +1,15 @@
 from minizinc import Instance, Model, Solver
 
-from DataSets import DataSets
+from ModuleData import ModuleData
+from PartData import PartData
 from ModelData import ModelData
 
-model = Model("./MiniZincModels/BinPackingMinimalWastedSpace.mzn")
+model = Model("./MiniZincModels/BinPacking.mzn")
 solver = Solver.lookup("gecode")
 instance = Instance(solver, model)
 
-modules = DataSets.get_container_modules()
-parts = DataSets.get_demo_parts()
+modules = ModuleData.get_container_modules()
+parts = PartData.get_demo_parts_2()
 data = ModelData(modules, parts)
 data.copy_data_to(instance)
 
