@@ -1,27 +1,18 @@
-from minizinc import Instance, Model, Solver
+from minizinc import Instance, Solver
 
-from ModuleData import ModuleData
-from PartData import PartData
-from ModelData import ModelData
+backup_solver = "gecode"
 
-model = Model("./MiniZincModels/BinPacking.mzn")
-solver = Solver.lookup("gecode")
-instance = Instance(solver, model)
 
-modules = ModuleData.get_container_modules()
-parts = PartData.get_demo_parts_2()
-data = ModelData(modules, parts)
-data.copy_data_to(instance)
+class ModelRunner(object):
+    def __init__(self, model, solver_name):
+        self.model = model
+        try:
+            self.solver = Solver.lookup(solver_name)
+        except LookupError:
+            print(f"Solver {solver_name} not found. Falling back to {backup_solver}")
+            self.solver = Solver.lookup(backup_solver)
 
-print("Solving with " + solver.name + " ...")
-result = instance.solve()
-
-if result.solution is not None:
-    print("Solved in: " + str(result.statistics["time"]))
-    print(result.solution.allocation)
-    if hasattr(result.solution, 'wasted_space'):
-        print(result.solution.wasted_space)
-    if hasattr(result.solution, 'objective'):
-        print(result.solution.objective)
-else:
-    print("No solution found")
+    def run(self, model_data):
+        instance = Instance(self.solver, self.model)
+        model_data.copy_data_to(instance)
+        return instance.solve()

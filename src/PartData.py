@@ -8,8 +8,8 @@ class PartData(object):
     @staticmethod
     def get_demo_parts():
         return [
-            Part(5800, 22000), Part(22000, 5800), Part(5620, 5600), Part(5620, 5600), Part(5620, 5600),
-            Part(22000, 5740), Part(5775, 5960), Part(12340, 5960), Part(5960, 3725)
+            Part(5800, 22000, 1), Part(22000, 5800, 1), Part(5620, 5600, 2), Part(5620, 5600, 2), Part(5620, 5600, 1),
+            Part(22000, 5740, 1), Part(5775, 5960, 4), Part(12340, 5960, 4), Part(5960, 3725, 3)
         ]
 
     @staticmethod
@@ -17,7 +17,8 @@ class PartData(object):
         return PartData.get_hochschrank_1() \
                + PartData.get_oberschrank_1() \
                + PartData.get_unterschrank_4() \
-               + PartData.get_traverse(10)
+               + PartData.get_hochschrank_1()
+        # + PartData.get_traverse(100)
 
     @staticmethod
     def get_hochschrank_1():
@@ -49,5 +50,5 @@ class PartData(object):
 
     @staticmethod
     def get_traverse(count=1):
-        traverse = Part(5620, 800)
+        traverse = Part(5620, 800, 1)
         return list(itertools.repeat(traverse, count))
