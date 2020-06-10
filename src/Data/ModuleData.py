@@ -1,6 +1,6 @@
 import itertools
 
-from Module import Module
+from DataModels.Module import Module
 
 
 class ModuleData(object):
