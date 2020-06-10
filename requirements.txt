@@ -1,3 +1,4 @@
+matplotlib
 lark-parser==0.8.5
 minizinc==0.2.3
 Pygments==2.6.1
