@@ -2,7 +2,7 @@ import math
 
 from Data.ModuleData import ModuleData
 from DataModels.ModelData import ModelData
-from ModelRunner import ModelRunner
+from MiniZincModelRunner import MiniZincModelRunner
 
 
 class Helper(object):
@@ -15,8 +15,8 @@ class Helper(object):
 
         while result is None or result.solution is None:
             modules = ModuleData.get_container_modules(min_number_of_containers)
-            data = ModelData(modules, parts)
-            result = ModelRunner(model, solver_name).run(data)
+            data = {"modules": modules, "parts": parts}
+            result = MiniZincModelRunner(model, solver_name).run(data)
 
             if result.solution is not None:
                 return min_number_of_containers
