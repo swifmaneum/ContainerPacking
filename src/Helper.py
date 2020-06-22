@@ -1,7 +1,6 @@
 import math
 
 from Data.ModuleData import ModuleData
-from DataModels.ModelData import ModelData
 from MiniZincModelRunner import MiniZincModelRunner
 
 
