@@ -1,7 +1,7 @@
 import math
 
 from Data.ModuleData import ModuleData
-from MiniZincModelRunner import MiniZincModelRunner
+from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 
 
 class Helper(object):
