@@ -6,9 +6,14 @@ from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 
 class Helper(object):
     @staticmethod
-    def find_min_number_of_containers(model, solver_name, parts, container_modules):
+    def find_min_number_of_containers(model, solver_name, parts, container_modules, hint):
         number_of_slots = sum(map(lambda module: module.capacity, container_modules))
         min_number_of_containers = math.ceil(len(parts) / number_of_slots)
+
+        if hint is not None:
+            # Performance tweak:
+            # If a hint is provided, choose the max of min_number_of_containers and hint
+            min_number_of_containers = max(min_number_of_containers, hint)
 
         result = None
 

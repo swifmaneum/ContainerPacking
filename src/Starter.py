@@ -21,11 +21,14 @@ for model, model_name in models_to_test:
 
     x = []
     y = []
+    min_number_of_containers = 1
     for i in range(1, 51):
 
         parts = PartData.get_oberschrank_1(i)
+
         min_number_of_containers = Helper.find_min_number_of_containers(satisfaction_model, solver_name, parts,
-                                                                        ModuleData.get_container_modules())
+                                                                        ModuleData.get_container_modules(),
+                                                                        min_number_of_containers)
 
         modules = ModuleData.get_container_modules(min_number_of_containers)
         data = {"modules": modules, "parts": parts}
