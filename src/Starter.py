@@ -1,10 +1,10 @@
 from minizinc import Model
 
 from Data.ModuleData import ModuleData
-from Data.PartData import PartData
 from Helper import Helper
 from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 from Plotter import Plotter
+from ProblemGenerators.RealisticProblemGenerator import RealisticProblemGenerator
 
 solver_name = "gurobi"
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
@@ -22,9 +22,12 @@ for model, model_name in models_to_test:
     x = []
     y = []
     min_number_of_containers = 1
-    for i in range(1, 51):
+    problem_generator = RealisticProblemGenerator()
+    parts = []
 
-        parts = PartData.get_oberschrank_1(i)
+    for i in range(1, 11):
+
+        parts = parts + next(problem_generator)
 
         min_number_of_containers = Helper.find_min_number_of_containers(satisfaction_model, solver_name, parts,
                                                                         ModuleData.get_container_modules(),
