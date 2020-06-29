@@ -4,6 +4,7 @@ from Data.ModuleData import ModuleData
 from Helper import Helper
 from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 from Plotter import Plotter
+from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from ProblemGenerators.RealisticProblemGenerator import RealisticProblemGenerator
 
 solver_name = "gurobi"
@@ -22,10 +23,10 @@ for model, model_name in models_to_test:
     x = []
     y = []
     min_number_of_containers = 1
-    problem_generator = RealisticProblemGenerator()
+    problem_generator = RandomProblemGenerator(1)
     parts = []
 
-    for i in range(1, 11):
+    for i in range(1, 101):
 
         parts = parts + next(problem_generator)
 
