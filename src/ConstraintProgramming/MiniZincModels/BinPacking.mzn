@@ -22,6 +22,8 @@ array[MODULE] of int: module_capacity;
 % Decision variables
 % ----------------------------------------
 array[PART] of var MODULE: allocation;
+array[PART] of var int: wasted_space;
+var int: wasted_space_sum;
 
 % ----------------------------------------
 % Constraints
@@ -32,3 +34,10 @@ constraint forall(i in PART) (
 );
 
 constraint bin_packing_capa(module_capacity, allocation, weights);
+
+
+constraint forall(i in PART) (
+  wasted_space[i] = module_lengths[allocation[i]]* (module_widths[allocation[i]] + module_juts[allocation[i]]) - widths[i] * lengths[i]
+);
+
+constraint wasted_space_sum = sum(wasted_space);

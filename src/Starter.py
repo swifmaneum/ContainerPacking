@@ -14,19 +14,21 @@ minimal_space_model.add_file("./ConstraintProgramming/MiniZincModels/BinPackingM
 max_grouping_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
 max_grouping_model.add_file("./ConstraintProgramming/MiniZincModels/BinPackingMaxGroup.mzn")
 
-models_to_test = [(satisfaction_model, "Satisfaction model"), (minimal_space_model, "Minimal space model"), ]
+models_to_test = [(satisfaction_model, "Satisfaction model"), (minimal_space_model, "Minimal space model")]
 # (max_grouping_model, "Maximal grouping model")]
 plot = Plotter()
+runtime_figure = plot.add_figure("Laufzeit", "Anzahl Teile", "Laufzeit in Sekunden")
+quality_figure = plot.add_figure("Lösungsqualität", "Anzahl Teile", "Verschwendeter Platz in mm^2")
 
 for model, model_name in models_to_test:
 
-    x = []
-    y = []
+    runtime_data = []
+    solution_quality_data = []
     min_number_of_containers = 1
     problem_generator = RandomProblemGenerator(1)
     parts = []
 
-    for i in range(1, 101):
+    for i in range(1, 51):
 
         parts = parts + next(problem_generator)
 
@@ -43,16 +45,17 @@ for model, model_name in models_to_test:
 
         if result.solution is not None:
             print(f"Solved with {solver_name} in: {result.statistics['time']}")
-            x.append(len(parts))
-            y.append(result.statistics['time'].total_seconds())
+            runtime_data.append((len(parts), result.statistics['time'].total_seconds()))
+
             print(result.solution.allocation)
-            if hasattr(result.solution, 'wasted_space'):
-                print(result.solution.wasted_space)
-            if hasattr(result.solution, 'objective'):
-                print(result.solution.objective)
+            if hasattr(result.solution, 'wasted_space_sum'):
+                print(result.solution.wasted_space_sum)
+                solution_quality_data.append((len(parts), result.solution.wasted_space_sum))
+
         else:
             print("No solution found")
 
-    plot.add_line(x, y, model_name)
+    plot.add_line(runtime_data, model_name, runtime_figure)
+    plot.add_line(solution_quality_data, model_name, quality_figure)
 
 plot.show()
