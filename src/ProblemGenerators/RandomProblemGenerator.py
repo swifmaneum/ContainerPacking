@@ -12,5 +12,4 @@ class RandomProblemGenerator(object):
 
     def __next__(self):
         next_part = Part(random.randint(10, 6000), random.randint(10, 20000), 1)
-        print(next_part.length, next_part.width)
         return [next_part]
