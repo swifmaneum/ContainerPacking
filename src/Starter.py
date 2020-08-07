@@ -6,6 +6,7 @@ from Data.ModuleData import ModuleData
 from Helper import Helper
 from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 from Heuristics.BestFitDecreasingArea import BestFitDecreasingArea
+from Heuristics.FirstFit import FirstFit
 from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 
@@ -18,9 +19,10 @@ max_grouping_model.add_file("./ConstraintProgramming/MiniZincModels/BinPackingMa
 
 algorithms_to_test = [
     (BestFit(), "Best Fit"),
+    (FirstFit(), "First Fit"),
     #(BestFitDecreasing(), "Best Fit Decreasing"),
     #(MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
-    (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model")
+    #(MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model")
 ]
 # (max_grouping_model, "Maximal grouping model")]
 plot = Plotter()
@@ -35,7 +37,7 @@ for model_runner, model_name in algorithms_to_test:
     problem_generator = RandomProblemGenerator(1)
     parts = []
 
-    for i in range(1, 200):
+    for i in range(1, 100):
 
         parts = parts + next(problem_generator)
 

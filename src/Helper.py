@@ -26,5 +26,4 @@ class Helper(object):
                 return min_number_of_containers
             else:
                 print(f"No solution found with  {min_number_of_containers} containers, increasing container count")
-                return min_number_of_containers
-                #min_number_of_containers = min_number_of_containers + 1
+                min_number_of_containers = min_number_of_containers + 1
