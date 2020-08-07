@@ -17,7 +17,7 @@ max_grouping_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mz
 max_grouping_model.add_file("./ConstraintProgramming/MiniZincModels/BinPackingMaxGroup.mzn")
 
 algorithms_to_test = [
-    #(BestFit(), "Best Fit"),
+    (BestFit(), "Best Fit"),
     #(BestFitDecreasing(), "Best Fit Decreasing"),
     #(MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
     (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model")
