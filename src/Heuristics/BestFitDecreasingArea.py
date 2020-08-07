@@ -2,7 +2,7 @@ from Runner import Runner
 from Solution import Solution
 
 
-class BestFitDecreasing(Runner):
+class BestFitDecreasingArea(Runner):
     def find_solution(self, data):
         parts = data["parts"]
         modules = data["modules"]
@@ -22,7 +22,7 @@ class BestFitDecreasing(Runner):
         return solution
 
     def sort_parts(self, parts):
-        return sorted(parts, key=lambda part: max(part.length, part.width), reverse=True)
+        return sorted(parts, key=lambda part: part.length * part.width, reverse=True)
 
     def get_best_fitting_module(self, part, modules):
         # Filter out all modules, that the part won't fit in

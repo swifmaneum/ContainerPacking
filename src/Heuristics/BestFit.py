@@ -2,15 +2,14 @@ from Runner import Runner
 from Solution import Solution
 
 
-class BestFitDecreasing(Runner):
+class BestFit(Runner):
     def find_solution(self, data):
         parts = data["parts"]
         modules = data["modules"]
         solution = Solution()
         solution.allocation = [None] * len(parts)
-        sorted_parts = self.sort_parts(parts)
 
-        for part in sorted_parts:
+        for part in parts:
             best_fit, wasted_space = self.get_best_fitting_module(part, modules)
             index_of_best_fit = modules.index(best_fit)
             solution.allocation[parts.index(part)] = index_of_best_fit
@@ -20,9 +19,6 @@ class BestFitDecreasing(Runner):
             else:
                 modules[index_of_best_fit].capacity = modules[index_of_best_fit].capacity - 1
         return solution
-
-    def sort_parts(self, parts):
-        return sorted(parts, key=lambda part: max(part.length, part.width), reverse=True)
 
     def get_best_fitting_module(self, part, modules):
         # Filter out all modules, that the part won't fit in

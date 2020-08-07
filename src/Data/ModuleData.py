@@ -1,5 +1,3 @@
-import itertools
-
 from DataModels.Module import Module
 
 
@@ -16,8 +14,9 @@ class ModuleData(object):
         length = 6000
         jut = 2000
         standard_modules = [
-            Module(length, 14200, 4, jut), Module(length, 900, 6), Module(length, 900, 6),
-            Module(length, 20000, 4, jut), Module(length, 8900, 8), Module(length, 3200, 8, jut),
-            Module(length, 12500, 8, jut)
+            Module(length, 14200, 4 * container_count, jut), Module(length, 900, 6 * container_count),
+            Module(length, 900, 6 * container_count), Module(length, 20000, 4 * container_count, jut),
+            Module(length, 8900, 8 * container_count), Module(length, 3200, 8 * container_count, jut),
+            Module(length, 12500, 8 * container_count, jut)
         ]
-        return list(itertools.chain.from_iterable(itertools.repeat(standard_modules, container_count)))
+        return standard_modules
