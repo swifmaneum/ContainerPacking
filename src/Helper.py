@@ -1,7 +1,7 @@
 import math
 
 from Data.ModuleData import ModuleData
-from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
+from Heuristics.BestFit import BestFit
 
 
 class Helper(object):
@@ -20,7 +20,7 @@ class Helper(object):
         while result is None or result.solution is None:
             modules = ModuleData.get_container_modules(min_number_of_containers)
             data = {"modules": modules, "parts": parts}
-            result = MiniZincModelRunner(model, solver_name).run(data)
+            result = BestFit().run(data)
 
             if result.solution is not None:
                 return min_number_of_containers
