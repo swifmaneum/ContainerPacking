@@ -19,10 +19,7 @@ class BaseHeuristic(Runner):
             index_of_best_fit = modules.index(fitting_module)
             solution.allocation[parts.index(part)] = index_of_best_fit
             solution.wasted_space_sum = solution.wasted_space_sum + wasted_space
-            if modules[index_of_best_fit].capacity == 1:
-                modules.remove(modules[index_of_best_fit])
-            else:
-                modules[index_of_best_fit].capacity = modules[index_of_best_fit].capacity - 1
+            modules[index_of_best_fit].capacity = modules[index_of_best_fit].capacity - 1
         return solution
 
     @abstractmethod
