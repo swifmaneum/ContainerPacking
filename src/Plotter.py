@@ -1,3 +1,5 @@
+import csv
+
 import matplotlib.pyplot as plt
 
 
@@ -17,6 +19,12 @@ class Plotter(object):
         plt.plot(*zip(*data), label=label)
 
         plt.legend(loc="lower right")
+
+    def to_csv(self, data, label):
+        with open(f"{label}.csv", 'w', newline="") as myfile:
+            wr = csv.writer(myfile)
+            for item in data:
+                wr.writerow([item[0], item[1]])
 
     def show(self):
         plt.show()
