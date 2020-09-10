@@ -13,6 +13,8 @@ class Runner(ABC):
         stop = time.time_ns()
         nanoseconds = stop - start
         statistics = {"time": timedelta(seconds=nanoseconds / (10 ** 9))}
+
+        # Wrap the solution into a MiniZinc Result to have a consistent interface
         return Result(Status.SATISFIED, solution, statistics)
 
     @abstractmethod

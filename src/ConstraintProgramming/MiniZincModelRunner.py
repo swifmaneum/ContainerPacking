@@ -24,8 +24,5 @@ class MiniZincModelRunner(Runner):
         if solution.solution is None or solution["allocation"] is None:
             return None
         else:
-            own_solution = Solution()
-            own_solution.allocation = solution["allocation"]
-            own_solution.wasted_space_sum = solution["wasted_space_sum"]
-            own_solution.grouped_parts = solution["grouped_parts"]
-            return own_solution
+            # Create a custom Solution from the MiniZinc Result as the MiniZinc solution is not subscriptable
+            return Solution(solution)
