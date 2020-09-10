@@ -18,7 +18,7 @@ class Plotter(object):
         plt.figure(figure_number)
         plt.plot(*zip(*data), label=label)
 
-        plt.legend(loc="lower right")
+        plt.legend(loc="upper left")
 
     def to_csv(self, data, label):
         with open(f"{label}.csv", 'w', newline="") as myfile:
