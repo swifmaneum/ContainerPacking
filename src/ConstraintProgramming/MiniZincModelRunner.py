@@ -1,6 +1,6 @@
 from minizinc import Instance, Solver
 
-from DataModels.ModelData import ModelData
+from ConstraintProgramming.ModelData import ModelData
 from Runner import Runner
 from Solution import Solution
 
@@ -27,4 +27,5 @@ class MiniZincModelRunner(Runner):
             own_solution = Solution()
             own_solution.allocation = solution["allocation"]
             own_solution.wasted_space_sum = solution["wasted_space_sum"]
+            own_solution.grouped_parts = solution["grouped_parts"]
             return own_solution
