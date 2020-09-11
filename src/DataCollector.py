@@ -7,7 +7,7 @@ class DataCollector(object):
     def collect(self, parts, result):
         for attribute in self.attribute_data:
             if hasattr(result.solution, attribute):
-                self.attribute_data[attribute].append((len(parts), result.solution[attribute]))
+                self.attribute_data[attribute].append((len(parts), getattr(result.solution, attribute)))
                 if self.print_enabled:
                     print(result.solution.wasted_space_sum)
 

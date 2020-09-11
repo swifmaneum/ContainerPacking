@@ -24,5 +24,4 @@ class MiniZincModelRunner(Runner):
         if solution.solution is None or solution["allocation"] is None:
             return None
         else:
-            # Create a custom Solution from the MiniZinc Result as the MiniZinc solution is not subscriptable
-            return Solution(solution)
+            return solution

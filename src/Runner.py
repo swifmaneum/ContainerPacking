@@ -14,7 +14,10 @@ class Runner(ABC):
         nanoseconds = stop - start
         statistics = {"time": timedelta(seconds=nanoseconds / (10 ** 9))}
 
-        # Wrap the solution into a MiniZinc Result to have a consistent interface
+        if isinstance(solution, Result):
+            # If the solution is already a MiniZinc Result, simply return it
+            return solution
+        # Otherwise wrap the solution into a MiniZinc Result to have a consistent interface
         return Result(Status.SATISFIED, solution, statistics)
 
     @abstractmethod
