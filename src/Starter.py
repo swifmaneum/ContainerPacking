@@ -11,17 +11,11 @@ from Heuristics.FirstFit import FirstFit
 from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 
-solver_name = "gurobi"
+solver_name = "gurobi" #gecode, chuffed
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
 formal_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFormalModel.mzn"])
 minimal_space_model = Model(["./ConstraintProgramming/MiniZincModels/BinPacking.mzn",
                              "./ConstraintProgramming/MiniZincModels/BinPackingMinimalWastedSpace.mzn"])
-
-group_model = Model(["./ConstraintProgramming/MiniZincModels/BinPacking.mzn",
-                     "./ConstraintProgramming/MiniZincModels/BinPackingUtopianPoint.mzn"])
-
-formal_symmetry_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFormalModel.mzn",
-                               "./ConstraintProgramming/MiniZincModels/SymmetryBreakingFormal.mzn"])
 
 algorithms_to_test = [
     (BestFit(), "Best Fit"),
@@ -29,7 +23,7 @@ algorithms_to_test = [
     # (BestFitDecreasing(), "Best Fit Decreasing"),
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
     # (MiniZincModelRunner(formal_model, solver_name), "Formal model"),
-    (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
+    # (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
     # (MiniZincModelRunner(group_model, solver_name), "Groupping model"),
 ]
 
