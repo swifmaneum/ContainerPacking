@@ -1,16 +1,14 @@
-from DataModels.ModelData import ModelData
 from Runner import Runner
 from Solution import Solution
-
 
 
 class DeepReinforcementLearningRunner(Runner):
 
     def find_solution(self, data):
-        model_data = ModelData(data["modules"], data["parts"])
-        instance = Instance(self.solver, self.model)
-        model_data.copy_data_to(instance)
-        solution = instance.solve()
+        # copy data to instance
+
+        # solve the instance
+        solution = None
         if solution.solution is None or solution["allocation"] is None:
             return None
         else:

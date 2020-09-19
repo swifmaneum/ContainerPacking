@@ -1,4 +1,4 @@
-from AgentClasses.Models.module import Module
+from DeepReinforcementLearning.Models.module import Module
 
 
 class Container:

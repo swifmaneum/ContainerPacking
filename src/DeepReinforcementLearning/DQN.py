@@ -11,22 +11,21 @@ from keras.models import Sequential
 from rl.policy import BoltzmannQPolicy
 from rl.memory import SequentialMemory
 from keras.layers import Dense, Activation, Flatten
-from AgentClasses.AgentEnvironmentClasses.env import env
-from AgentClasses.AgentEnvironmentClasses.trainingEnv import BoardSortingEnv
-from AgentClasses.CounterAndTimerClasses.time_stamp import TimeStamp
+from DeepReinforcementLearning.AgentEnvironmentClasses.env import env
+from DeepReinforcementLearning.AgentEnvironmentClasses.trainingEnv import BoardSortingEnv
 
 
-enable_training = 0
+enable_training = 1
 if enable_training == 1:
-    env = BoardSortingEnv()
+    environment = BoardSortingEnv()
 else:
-    env = env(60, 400, 0, 0, 0, 0, 0, 0)
+    environment = env(60, 400, 0, 0, 0, 0, 0, 0)
 np.random.seed(123)
-env.seed(123)
-nb_actions = env.action_space.n
+environment.seed(123)
+nb_actions = environment.action_space.n
 
 model = Sequential()
-model.add(Flatten(input_shape=(1,) + env.observation_space.shape))
+model.add(Flatten(input_shape=(1,) + environment.observation_space.shape))
 model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dense(64))
@@ -44,11 +43,10 @@ dqn = DQNAgent(model=model, nb_actions=nb_actions, memory=memory, nb_steps_warmu
 dqn.compile(Adam(lr=1e-3), metrics=['mae'])
 
 if enable_training == 1:
-    dqn.fit(env, nb_steps=100000, visualize=False, verbose=2)
+    dqn.fit(environment, nb_steps=100000, visualize=False, verbose=2)
     dqn.save_weights('dqn_sorting_weights.h5f', overwrite=True)
 else:
     dqn.load_weights('dqn_sorting_weights.h5f')
     start_time = datetime.datetime.now()
-    dqn.test(env, nb_episodes=15, visualize=False)
+    dqn.test(environment, nb_episodes=15, visualize=False)
     end_time = datetime.datetime.now()
-TimeStamp.print(start_time, end_time)

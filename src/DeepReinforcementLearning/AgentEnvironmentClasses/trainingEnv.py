@@ -2,9 +2,9 @@ import gym
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
-from AgentClasses.Models.part import Part
-from AgentClasses.Models.container import Container
-from AgentClasses.AgentEnvironmentClasses.aiRuleBase import get_best_fitting_module
+from DeepReinforcementLearning.Models.part import Part
+from DeepReinforcementLearning.Models.container import Container
+from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import get_best_fitting_module
 
 
 class BoardSortingEnv(gym.Env):
