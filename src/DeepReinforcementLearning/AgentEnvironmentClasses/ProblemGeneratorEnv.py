@@ -41,17 +41,17 @@ class ProblemGeneratorEnv(gym.Env):
         assert self.action_space.contains(action)
         # Decrease the action value (1-indexed) by one to map it to python list indices (0-indexed)
         action_index = action - 1
-        #print(action_index)
-
-        # If we did not choose 'no module available'
-        if action != len(self.modules) + 1:
-            # Decrease the capacity of the chosen module
-            self.modules[action_index].capacity = self.modules[action_index].capacity - 1
+        # print(action_index)
 
         if is_best_fitting_module(action_index, self.part, self.modules):
             self.reward = 1
         else:
             self.reward = 0
+
+        # If we did not choose 'no module available' and there's still capacity in the chosen module
+        if action != len(self.modules) + 1 and self.modules[action_index].capacity > 0:
+            # Decrease the capacity of the chosen module
+            self.modules[action_index].capacity = self.modules[action_index].capacity - 1
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
