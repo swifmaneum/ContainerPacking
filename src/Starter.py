@@ -24,7 +24,6 @@ algorithms_to_test = [
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
     # (MiniZincModelRunner(formal_model, solver_name), "Formal model"),
     # (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
-    # (MiniZincModelRunner(group_model, solver_name), "Groupping model"),
 ]
 
 plot = Plotter()
