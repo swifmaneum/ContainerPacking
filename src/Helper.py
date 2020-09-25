@@ -6,7 +6,7 @@ from Heuristics.BestFit import BestFit
 
 class Helper(object):
     @staticmethod
-    def find_min_number_of_containers(model, solver_name, parts, container_modules, hint):
+    def find_min_number_of_containers(parts, container_modules, hint):
         number_of_slots = sum(map(lambda module: module.capacity, container_modules))
         min_number_of_containers = math.ceil(len(parts) / number_of_slots)
 
