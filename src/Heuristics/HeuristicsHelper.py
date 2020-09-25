@@ -1,10 +1,10 @@
 def part_fits_in_module(part, module):
-    return (module.length >= part.length and module.width + module.jut >= part.width) or (
-            module.length >= part.width and module.width + module.jut >= part.length)
+    return (module.length >= part.length and module.width >= part.width) or (
+            module.length >= part.width and module.width >= part.length)
 
 
 def calculate_wasted_space(part, module):
-    return module.length * (module.width + module.jut) - part.width * part.length
+    return module.length * module.width - part.width * part.length
 
 
 def get_best_fitting_module(part, modules):
@@ -23,7 +23,6 @@ def get_best_fitting_module(part, modules):
 
 
 def get_first_fitting_module(part, modules):
-
     feasible_modules = get_feasible_modules(part, modules)
     first_module = next(feasible_modules, None)
     if first_module:

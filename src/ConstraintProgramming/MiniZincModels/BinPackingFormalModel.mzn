@@ -15,10 +15,9 @@ set of int: MODULE = 1..n_modules;
 
 array[MODULE] of int: module_lengths;
 array[MODULE] of int: module_widths;
-array[MODULE] of int: module_juts;
 array[MODULE] of int: module_capacity;
 
-int: max_wasted_space = sum(m in MODULE)(module_capacity[m] * module_lengths[m]* (module_widths[m] + module_juts[m]));
+int: max_wasted_space = sum(m in MODULE)(module_capacity[m] * module_lengths[m]* module_widths[m]);
 
 % ----------------------------------------
 % Decision variables
@@ -40,17 +39,17 @@ constraint forall(p in PART)(
 
 constraint forall(m in MODULE, p in PART)(
   allocation[m,p] -> 
-  (module_lengths[m] >= lengths[p] /\ module_widths[m] + module_juts[m] >= widths[p])
-    \/ (module_lengths[m] >= widths[p] /\ module_widths[m] + module_juts[m] >= lengths[p])
+  (module_lengths[m] >= lengths[p] /\ module_widths[m] >= widths[p])
+    \/ (module_lengths[m] >= widths[p] /\ module_widths[m] >= lengths[p])
 );
 
 constraint forall(m in MODULE, p in PART)(
   allocation[m,p] -> 
-  wasted_space[p] = module_lengths[m]* (module_widths[m] + module_juts[m]) - widths[p] * lengths[p]
+  wasted_space[p] = module_lengths[m]* module_widths[m] - widths[p] * lengths[p]
 );
 
 %constraint forall(p in PART)(
-%  wasted_space[p] <= module_lengths[m]* (module_widths[m] + module_juts[m])
+%  wasted_space[p] <= module_lengths[m]* module_widths[m]
 %);
 
 constraint wasted_space_sum = sum(wasted_space);
