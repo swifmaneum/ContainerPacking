@@ -23,11 +23,11 @@ class ProblemGeneratorEnv(gym.Env):
 
         observation_space_low = np.array([40, 40])
         observation_space_high = np.array([2000, 600])
-        for module in self.modules:
-            # Add the minimum capacity 0 for every module
+        for _ in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
             observation_space_low = np.append(observation_space_low, 0)
-            # Add the actual capacity for every module
-            observation_space_high = np.append(observation_space_high, module.capacity)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
         self.observation_space = spaces.Box(low=observation_space_low, high=observation_space_high, dtype=np.uint64)
         self.np_random = ()
         self.seed()
@@ -74,5 +74,6 @@ class ProblemGeneratorEnv(gym.Env):
         part_dimensions = (part.length, part.width)
         module_capacities = []
         for module in self.modules:
-            module_capacities.append(module.capacity)
+            module_capacities.append(1 if module.capacity > 0 else 0)
+
         return np.array(part_dimensions + tuple(module_capacities))
