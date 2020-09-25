@@ -11,15 +11,32 @@ from keras.models import Sequential
 from rl.policy import BoltzmannQPolicy
 from rl.memory import SequentialMemory
 from keras.layers import Dense, Activation, Flatten
+
+from Data.ModuleData import ModuleData
+from DeepReinforcementLearning.AgentEnvironmentClasses.ProblemGeneratorEnv import ProblemGeneratorEnv
 from DeepReinforcementLearning.AgentEnvironmentClasses.env import env
 from DeepReinforcementLearning.AgentEnvironmentClasses.trainingEnv import BoardSortingEnv
+from Helper import Helper
+from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 
+# TODO: Remove glue code if not needed any more
+# Begin glue code
+problem_generator = RandomProblemGenerator(1)
+parts = []
 
-enable_training = 1
+for i in range(1, 20):
+    parts = parts + next(problem_generator)
+
+min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
+modules = ModuleData.get_container_modules(min_number_of_containers)
+data = {"modules": modules, "parts": parts}
+# End glue code
+
+enable_training = 0
 if enable_training == 1:
-    environment = BoardSortingEnv()
+    environment = ProblemGeneratorEnv(data)
 else:
-    environment = env(60, 400, 0, 0, 0, 0, 0, 0)
+    environment = ProblemGeneratorEnv(data)
 np.random.seed(123)
 environment.seed(123)
 nb_actions = environment.action_space.n
