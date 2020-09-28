@@ -22,7 +22,7 @@ class ProblemGeneratorEnv(gym.Env):
         self.action_space = spaces.Discrete(len(self.modules) + 1)
 
         observation_space_low = np.array([40, 40])
-        observation_space_high = np.array([2000, 600])
+        observation_space_high = np.array([20000, 6000])
         for _ in self.modules:
             # Lower bound is 0, indicating there is no capacity in the module
             observation_space_low = np.append(observation_space_low, 0)
@@ -39,19 +39,16 @@ class ProblemGeneratorEnv(gym.Env):
 
     def step(self, action):
         assert self.action_space.contains(action)
-        # Decrease the action value (1-indexed) by one to map it to python list indices (0-indexed)
-        action_index = action - 1
-        # print(action_index)
 
-        if is_best_fitting_module(action_index, self.part, self.modules):
+        if is_best_fitting_module(action, self.part, self.modules):
             self.reward = 1
         else:
             self.reward = 0
 
         # If we did not choose 'no module available' and there's still capacity in the chosen module
-        if action != len(self.modules) + 1 and self.modules[action_index].capacity > 0:
+        if action != len(self.modules) and self.modules[action].capacity > 0:
             # Decrease the capacity of the chosen module
-            self.modules[action_index].capacity = self.modules[action_index].capacity - 1
+            self.modules[action].capacity = self.modules[action].capacity - 1
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
