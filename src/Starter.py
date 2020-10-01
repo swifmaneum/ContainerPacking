@@ -1,6 +1,7 @@
 from minizinc import Model
 
 from DataCollector import DataCollector
+from DeepReinforcementLearning.DeepQNetworkRunner import DeepQNetworkRunner
 from Heuristics.BestFit import BestFit
 from Heuristics.BestFitDecreasing import BestFitDecreasing
 from Data.ModuleData import ModuleData
@@ -10,6 +11,7 @@ from Heuristics.BestFitDecreasingArea import BestFitDecreasingArea
 from Heuristics.FirstFit import FirstFit
 from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
+
 
 solver_name = "gurobi"  # gecode, chuffed
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
@@ -23,7 +25,8 @@ algorithms_to_test = [
     # (BestFitDecreasing(), "Best Fit Decreasing"),
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
     # (MiniZincModelRunner(formal_model, solver_name), "Formal model"),
-    # (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
+    (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
+    (DeepQNetworkRunner(), "DQN")
 ]
 
 plot = Plotter()
