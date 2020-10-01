@@ -11,5 +11,5 @@ class RandomProblemGenerator(object):
         return self
 
     def __next__(self):
-        next_part = Part(random.randint(10, 6000), random.randint(10, 20000), 1)
+        next_part = Part(random.randint(40, 6000), random.randint(40, 20000), 1)
         return [next_part]

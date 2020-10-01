@@ -23,7 +23,7 @@ class ProblemGeneratorEnv(gym.Env):
         self.reward = 0
         self.next_environment_observation = ()
         # Allow the length of modules as actions, + 1 for 'no module available'
-        self.action_space = spaces.Discrete(len(self.modules) + 1)
+        self.action_space = spaces.Discrete(len(self.modules))
 
         observation_space_low = np.array([40, 40])
         observation_space_high = np.array([20000, 6000])
