@@ -5,7 +5,8 @@ import numpy as np
 from gym import spaces
 from gym.utils import seeding
 
-from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module
+from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
+from Solution import Solution
 
 
 class ProblemGeneratorEnv(gym.Env):
@@ -14,6 +15,9 @@ class ProblemGeneratorEnv(gym.Env):
         self.problem_data = problem_data
         self.parts = copy.deepcopy(self.problem_data["parts"])
         self.modules = copy.deepcopy(self.problem_data["modules"])
+
+        self.solution = Solution()
+
         self.part = None
         self.current_part_index = 0
         self.reward = 0
@@ -38,7 +42,14 @@ class ProblemGeneratorEnv(gym.Env):
         return [seed]
 
     def step(self, action):
+        """
+
+         :type action: Int
+         """
         assert self.action_space.contains(action)
+        self.solution.allocation.append(action)
+        if action < len(self.modules):
+            self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
 
         if is_best_fitting_module(action, self.part, self.modules):
             self.reward = 1
@@ -46,7 +57,7 @@ class ProblemGeneratorEnv(gym.Env):
             self.reward = 0
 
         # If we did not choose 'no module available' and there's still capacity in the chosen module
-        if action != len(self.modules) and self.modules[action].capacity > 0:
+        if action < len(self.modules) and self.modules[action].capacity > 0:
             # Decrease the capacity of the chosen module
             self.modules[action].capacity = self.modules[action].capacity - 1
 
@@ -62,6 +73,7 @@ class ProblemGeneratorEnv(gym.Env):
 
     def reset(self):
         self.modules = copy.deepcopy(self.problem_data["modules"])
+        self.solution = Solution()
         self.current_part_index = 0
         self.part = self.parts[self.current_part_index]
         self.next_environment_observation = self.build_observation(self.part)

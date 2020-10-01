@@ -6,6 +6,9 @@ class DeepReinforcementLearningRunner(Runner):
 
     def find_solution(self, data):
         # copy data to instance
+        environment = ProblemGeneratorEnv(data)
+        dqn = DQN()
+        dqn.test(environment, nb_episodes=1, visualize=False)
 
         # solve the instance
         solution = None
