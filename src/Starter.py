@@ -1,6 +1,7 @@
 from minizinc import Model
 
 from DataCollector import DataCollector
+from DataModels.Part import Part
 from DeepReinforcementLearning.DeepQNetworkRunner import DeepQNetworkRunner
 from Heuristics.BestFit import BestFit
 from Heuristics.BestFitDecreasing import BestFitDecreasing
@@ -11,7 +12,7 @@ from Heuristics.BestFitDecreasingArea import BestFitDecreasingArea
 from Heuristics.FirstFit import FirstFit
 from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
-
+from ProblemGenerators.RealisticProblemGenerator import RealisticProblemGenerator
 
 solver_name = "gurobi"  # gecode, chuffed
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
@@ -20,12 +21,12 @@ minimal_space_model = Model(["./ConstraintProgramming/MiniZincModels/BinPacking.
                              "./ConstraintProgramming/MiniZincModels/BinPackingMinimalWastedSpace.mzn"])
 
 algorithms_to_test = [
-    (BestFit(), "Best Fit"),
+    # (BestFit(), "Best Fit"),
     # (FirstFit(), "First Fit"),
     # (BestFitDecreasing(), "Best Fit Decreasing"),
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
     # (MiniZincModelRunner(formal_model, solver_name), "Formal model"),
-    (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
+    # (MiniZincModelRunner(minimal_space_model, solver_name), "Minimal space model"),
     (DeepQNetworkRunner(), "DQN")
 ]
 
@@ -38,12 +39,14 @@ for model_runner, model_name in algorithms_to_test:
     data_collector = DataCollector(True)
 
     min_number_of_containers = 1
-    problem_generator = RandomProblemGenerator(1)
-    parts = []
+    problem_generator = RealisticProblemGenerator()
+    parts = [Part(1500, 150, 1), Part(20000, 1500, 1),
+             Part(500, 150, 1), Part(500, 850, 1), Part(1500, 5500, 1), Part(1111, 550, 1), Part(200, 150, 1),
+             Part(500, 15000, 1), ]
 
-    for i in range(1, 20):
+    for i in range(1, 2):
 
-        parts = parts + next(problem_generator)
+        # parts = parts + next(problem_generator)
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(),
                                                                         min_number_of_containers)
