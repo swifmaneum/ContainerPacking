@@ -13,8 +13,8 @@ class ModuleData(object):
         """Modules taken from Jens Töpfers bachelor thesis, see Table 5 on page 29"""
         width = 6000
         standard_modules = [
-            Module(900, width, 12 * container_count), Module(5200, width, 8 * container_count),
-            Module(10900, width, 8 * container_count), Module(14500, width, 8 * container_count),
-            Module(16200, width, 4 * container_count), Module(22000, width, 4 * container_count),
+            Module(900, width, 0 * container_count), Module(5200, width, 8 * container_count),
+            Module(10900, width, 8 * container_count), Module(14500, width, 2 * container_count),
+            Module(16200, width, 2 * container_count), Module(22000, width, 3 * container_count),
         ]
         return standard_modules

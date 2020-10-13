@@ -32,11 +32,11 @@ class TrainingEnv(gym.Env):
 
         observation_space_low = np.array([0.0, 0.0])
         observation_space_high = np.array([1.0, 1.0])
-        # for _ in self.modules:
-        # Lower bound is 0, indicating there is no capacity in the module
-        #    observation_space_low = np.append(observation_space_low, 0)
-        # Upper bound is 1, indicating there is still capacity in the module
-        #   observation_space_high = np.append(observation_space_high, 1)
+        for _ in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
+            observation_space_low = np.append(observation_space_low, 0)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
         self.observation_space = spaces.Box(low=observation_space_low, high=observation_space_high, dtype=np.float64)
         self.np_random = ()
         self.seed()
@@ -69,7 +69,7 @@ class TrainingEnv(gym.Env):
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
             # If we've reached the last part, end the episode by returning done is true
-            return np.empty(2), self.reward, True, {}
+            return np.empty(8), self.reward, True, {}
         else:
             # Else return the next part and continue the episode
             self.part = self.parts[self.current_part_index]
@@ -93,7 +93,7 @@ class TrainingEnv(gym.Env):
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
 
-        return np.array(part_dimensions)  # + tuple(module_capacities))
+        return np.array(part_dimensions + tuple(module_capacities))
 
     def generate_random_data(self):
         problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
@@ -104,4 +104,7 @@ class TrainingEnv(gym.Env):
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
         modules = ModuleData.get_container_modules(min_number_of_containers)
+        for module in modules:
+            module.capacity = random.randint(0, 3)
+
         return {"modules": modules, "parts": parts}

@@ -40,7 +40,9 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
     problem_generator = RealisticProblemGenerator()
-    parts = [Part(20000, 5000, 1)]
+    parts = [Part(12500, 5000, 1), Part(12500, 5000, 1), Part(12500, 5000, 1),
+             Part(12500, 5000, 1), Part(12500, 5000, 1), Part(12500, 5000, 1),
+             Part(12500, 5000, 1),]
 
     for i in range(1, 2):
 
