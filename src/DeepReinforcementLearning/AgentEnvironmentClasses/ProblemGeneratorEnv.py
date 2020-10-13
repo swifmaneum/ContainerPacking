@@ -47,7 +47,6 @@ class ProblemGeneratorEnv(gym.Env):
          :type action: Int
          """
         assert self.action_space.contains(action)
-        print(action)
         self.solution.allocation.append(action)
         if action < len(self.modules):
             self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])

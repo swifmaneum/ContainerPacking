@@ -39,13 +39,13 @@ class DeepQNetworkRunner(Runner):
         self.dqn.compile(Adam(lr=0.01), metrics=['mae'])
 
         weights = Path('dqn_sorting_weights.h5f.index')
-        # if not weights.is_file():
-        self.train()
+        if not weights.is_file():
+            self.train()
         self.dqn.load_weights('dqn_sorting_weights.h5f')
 
     def train(self):
         self.environment = TrainingEnv()
-        steps = 50000
+        steps = 20000
         window_size = 100
         points_to_plot = []
 

@@ -40,9 +40,7 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
     problem_generator = RealisticProblemGenerator()
-    parts = [Part(1500, 150, 1), Part(20000, 1500, 1),
-             Part(500, 150, 1), Part(500, 850, 1), Part(1500, 5500, 1), Part(1111, 550, 1), Part(200, 150, 1),
-             Part(500, 15000, 1), ]
+    parts = [Part(20000, 5000, 1)]
 
     for i in range(1, 2):
 
@@ -50,14 +48,12 @@ for model_runner, model_name in algorithms_to_test:
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(),
                                                                         min_number_of_containers)
-
         modules = ModuleData.get_container_modules(min_number_of_containers)
         data = {"modules": modules, "parts": parts}
 
         print(f"Packing {len(parts)} parts into {min_number_of_containers} containers with {len(modules)} modules")
 
         result = model_runner.run(data)
-
         if result.solution is not None:
             print(f"Solved with {model_name} in: {result.statistics['time']}")
             print(result.solution.allocation)

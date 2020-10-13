@@ -12,7 +12,7 @@ class PartData(object):
     @staticmethod
     def get_demo_parts(count=1):
         parts = [
-            Part(5800, 22000, 1), Part(22000, 5800, 1), Part(5620, 5600, 2), Part(5620, 5600, 2), Part(5620, 5600, 1),
+            Part(22000, 5800,  1), Part(22000, 5800, 1), Part(5620, 5600, 2), Part(5620, 5600, 2), Part(5620, 5600, 1),
             Part(22000, 5740, 1), Part(5775, 5960, 4), Part(12340, 5960, 4), Part(5960, 3725, 3)
         ]
         return PartData.repeat(parts, count)
@@ -38,7 +38,7 @@ class PartData(object):
     def get_oberschrank_1(count=1, group=1):
         parts = [
             Part(7000, 3200, group), Part(7000, 3200, group), Part(7620, 2900, group), Part(7620, 2900, group),
-            Part(6000, 7740, group),  # TODO: 7000
+            Part(7740, 6000,  group),  # TODO: 7000
             Part(7610, 2800, group), Part(6920, 3960, group), Part(6920, 3960, group)
         ]
         return PartData.repeat(parts, count)
