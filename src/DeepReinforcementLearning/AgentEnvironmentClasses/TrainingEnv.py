@@ -8,7 +8,8 @@ from gym.utils import seeding
 
 from Data.ModuleData import ModuleData
 from DataModels.Part import Part
-from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
+from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space, \
+    part_fits_in_module
 from Helper import Helper
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from Solution import Solution
@@ -56,8 +57,10 @@ class TrainingEnv(gym.Env):
         if action < len(self.modules):
             self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
 
-        if is_best_fitting_module(action, self.part, self.modules):
-            self.reward = 1
+        if action < len(self.modules) and part_fits_in_module(self.part, self.modules[action]):
+            self.reward = 1000000 / calculate_wasted_space(self.part, self.modules[action])
+            if is_best_fitting_module(action, self.part, self.modules):
+                self.reward += 0.5
         else:
             self.reward = -1
 
