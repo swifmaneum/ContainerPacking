@@ -10,6 +10,7 @@ from pathlib import Path
 from Data.ModuleData import ModuleData
 from DeepReinforcementLearning.AgentEnvironmentClasses.ProblemGeneratorEnv import ProblemGeneratorEnv
 from DeepReinforcementLearning.AgentEnvironmentClasses.TrainingEnv import TrainingEnv
+from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import part_fits_in_module
 from Helper import Helper
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from Runner import Runner
@@ -50,7 +51,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
-        steps = 200000
+        steps = 500000
         window_size = 100
         points_to_plot = []
 
@@ -68,4 +69,15 @@ class DeepQNetworkRunner(Runner):
     def find_solution(self, data):
         self.environment = ProblemGeneratorEnv(data)
         self.dqn.test(self.environment, nb_episodes=1, visualize=False)
-        return self.environment.solution
+        if self.is_feasable(self.environment.solution):
+            return self.environment.solution
+        else:
+            return None
+
+    def is_feasable(self, solution):
+        for i in range(len(solution.allocation)):
+            part = self.environment.parts[i]
+            module = self.environment.modules[solution.allocation[i]]
+            if not part_fits_in_module(part, module):
+                return False
+        return True
