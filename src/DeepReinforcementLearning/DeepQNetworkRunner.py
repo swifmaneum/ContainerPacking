@@ -26,7 +26,11 @@ class DeepQNetworkRunner(Runner):
 
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(1,) + self.environment.observation_space.shape))
-        self.model.add(Dense(8))
+        self.model.add(Dense(32))
+        self.model.add(Activation('relu'))
+        self.model.add(Dense(32))
+        self.model.add(Activation('relu'))
+        self.model.add(Dense(32))
         self.model.add(Activation('relu'))
         self.model.add(Dense(nb_actions))
         self.model.add(Activation('linear'))
@@ -37,7 +41,7 @@ class DeepQNetworkRunner(Runner):
         self.dqn = DQNAgent(model=self.model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=100,
                             target_model_update=1e-2, enable_dueling_network=True, dueling_type='avg',
                             enable_double_dqn=True, policy=policy, gamma=0.0)
-        self.dqn.compile(Adam(lr=0.01), metrics=['mae'])
+        self.dqn.compile(Adam(lr=1e-3), metrics=['mae'])
 
         weights = Path('dqn_sorting_weights.h5f.index')
         if not weights.is_file():
@@ -46,7 +50,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
-        steps = 40000
+        steps = 200000
         window_size = 100
         points_to_plot = []
 

@@ -11,6 +11,9 @@ class RandomProblemGenerator(object):
         return self
 
     def __next__(self):
-        'ToDo: Better generalisation '
-        next_part = Part(random.randint(40, 22000), random.randint(40, 6000),  1)
+        change_board_geometry_generation = random.randint(0, 2)
+        if change_board_geometry_generation == 0:
+            next_part = Part(random.randint(40, 22000), random.randint(40, 6000),  1)
+        else:
+            next_part = Part(random.randint(40, 6000), random.randint(40, 22000), 1)
         return [next_part]

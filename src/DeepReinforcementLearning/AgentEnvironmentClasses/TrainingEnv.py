@@ -105,6 +105,6 @@ class TrainingEnv(gym.Env):
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
         modules = ModuleData.get_container_modules(min_number_of_containers)
         for module in modules:
-            module.capacity = random.randint(0, 3)
+            module.capacity = random.randint(0, 2)
 
         return {"modules": modules, "parts": parts}

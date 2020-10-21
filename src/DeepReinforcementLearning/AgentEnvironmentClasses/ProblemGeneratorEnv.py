@@ -84,5 +84,4 @@ class ProblemGeneratorEnv(gym.Env):
         module_capacities = []
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
-
         return np.array(part_dimensions + tuple(module_capacities))
