@@ -51,7 +51,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
-        steps = 40000
+        steps = 500000
         window_size = 100
         points_to_plot = []
 

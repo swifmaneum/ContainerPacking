@@ -41,10 +41,10 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
     # problem_generator = RealisticProblemGenerator()
-    problem_generator = RandomProblemGenerator(1)
+    problem_generator = RandomProblemGenerator(123)
     # parts = [Part(600, 600, 1)]
     parts = []
-    for i in range(1, 200):
+    for i in range(1, 50):
 
         parts = parts + next(problem_generator)
 
