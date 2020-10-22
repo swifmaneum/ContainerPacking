@@ -40,11 +40,11 @@ for model_runner, model_name in algorithms_to_test:
     data_collector = DataCollector(True)
 
     min_number_of_containers = 1
-    problem_generator = RealisticProblemGenerator()
-    # problem_generator = RandomProblemGenerator(None)
+    # problem_generator = RealisticProblemGenerator()
+    problem_generator = RandomProblemGenerator(1)
     # parts = [Part(600, 600, 1)]
     parts = []
-    for i in range(1, 9):
+    for i in range(1, 200):
 
         parts = parts + next(problem_generator)
 
@@ -66,7 +66,6 @@ for model_runner, model_name in algorithms_to_test:
 
     plot.add_line(data_collector.get_data("time"), model_name, runtime_figure)
     plot.add_line(data_collector.get_data("wasted_space_sum"), model_name, quality_figure)
-    plot.add_line(data_collector.get_data("grouped_parts"), model_name, grouped_items_figure)
 
     # plot.to_csv(solution_quality_data, model_name)
 
