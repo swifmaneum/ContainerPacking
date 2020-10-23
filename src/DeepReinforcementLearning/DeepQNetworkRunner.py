@@ -27,16 +27,16 @@ class DeepQNetworkRunner(Runner):
 
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(1,) + self.environment.observation_space.shape))
-        self.model.add(Dense(64))
+        self.model.add(Dense(32))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(64))
+        self.model.add(Dense(32))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(64))
+        self.model.add(Dense(32))
         self.model.add(Activation('relu'))
         self.model.add(Dense(nb_actions))
         self.model.add(Activation('linear'))
 
-        memory = SequentialMemory(limit=10000, window_length=1)
+        memory = SequentialMemory(limit=1000, window_length=1)
         policy = BoltzmannQPolicy()
         'Compare diffrent configurations'
         self.dqn = DQNAgent(model=self.model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=100,
@@ -51,11 +51,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
-<<<<<<< HEAD
-        steps = 1000000
-=======
-        steps = 40000
->>>>>>> parent of 079cfaa... Training with 500.000 Steps
+        steps = 500000
         window_size = 100
         points_to_plot = []
 
