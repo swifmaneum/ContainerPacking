@@ -51,7 +51,11 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
+<<<<<<< HEAD
         steps = 1000000
+=======
+        steps = 40000
+>>>>>>> parent of 079cfaa... Training with 500.000 Steps
         window_size = 100
         points_to_plot = []
 
