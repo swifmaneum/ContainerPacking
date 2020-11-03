@@ -5,7 +5,8 @@ import numpy as np
 from gym import spaces
 from gym.utils import seeding
 
-from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
+from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import calculate_wasted_space, part_fits_in_module
+from DeepReinforcementLearning.JutCalculator import JutCalculator
 from Solution import Solution
 
 
@@ -21,6 +22,7 @@ class ProblemGeneratorEnv(gym.Env):
         self.part = None
         self.current_part_index = 0
         self.reward = 0
+        self.wasted_space = 0
         self.next_environment_observation = ()
         # Allow the length of modules as actions, + 1 for 'no module available'
         self.action_space = spaces.Discrete(len(self.modules))
@@ -48,18 +50,18 @@ class ProblemGeneratorEnv(gym.Env):
          """
         assert self.action_space.contains(action)
         self.solution.allocation.append(action)
-        if action < len(self.modules):
-            self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
 
-        if is_best_fitting_module(action, self.part, self.modules):
-            self.reward = 1
-        else:
-            self.reward = -1
+        self.wasted_space = calculate_wasted_space(self.part, self.modules[action])
+        self.solution.wasted_space_sum += self.wasted_space
 
-        # If we did not choose 'no module available' and there's still capacity in the chosen module
-        if action < len(self.modules) and self.modules[action].capacity > 0:
-            # Decrease the capacity of the chosen module
+        if part_fits_in_module(self.part, self.modules[action]) and self.modules[action].capacity > 0:
             self.modules[action].capacity = self.modules[action].capacity - 1
+            self.reward = 1000000 / self.wasted_space
+        elif part_fits_in_module(self.part, self.modules[action]) and self.modules[action].capacity == 0:
+            self.reward = -1
+        else:
+            jut = JutCalculator.jut(self.modules[action], self.part)
+            self.reward = - jut / 1000000
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):

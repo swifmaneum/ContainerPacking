@@ -55,24 +55,18 @@ class TrainingEnv(gym.Env):
          """
         assert self.action_space.contains(action)
         self.solution.allocation.append(action)
-        if action == len(self.modules):
-            if is_best_fitting_module(action, self.part, self.modules):
-                self.reward = 0
-            else:
-                self.reward = -1
-        else:
-            wasted_space = calculate_wasted_space(self.part, self.modules[action])
-            self.solution.wasted_space_sum += wasted_space
-            if part_fits_in_module(self.part, self.modules[action]):
-                self.reward = 1000000 / wasted_space
-            else:
-                jut = JutCalculator.jut(self.modules[action], self.part)
-                self.reward = - jut / 1000000
 
-        # If we did not choose 'no module available' and there's still capacity in the chosen module
-        if action < len(self.modules) and self.modules[action].capacity > 0:
-            # Decrease the capacity of the chosen module
+        wasted_space = calculate_wasted_space(self.part, self.modules[action])
+        self.solution.wasted_space_sum += wasted_space
+
+        if part_fits_in_module(self.part, self.modules[action]) and self.modules[action].capacity > 0:
             self.modules[action].capacity = self.modules[action].capacity - 1
+            self.reward = 1000000 / wasted_space
+        elif part_fits_in_module(self.part, self.modules[action]) and self.modules[action].capacity == 0:
+            self.reward = -1
+        else:
+            jut = JutCalculator.jut(self.modules[action], self.part)
+            self.reward = - jut / 1000000
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
