@@ -27,12 +27,12 @@ class DeepQNetworkRunner(Runner):
 
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(1,) + self.environment.observation_space.shape))
-        self.model.add(Dense(32))
+        self.model.add(Dense(64))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(32))
-        self.model.add(Activation('relu'))
-        self.model.add(Dense(32))
-        self.model.add(Activation('relu'))
+        # self.model.add(Dense(16))
+        # self.model.add(Activation('relu'))
+        # self.model.add(Dense(16))
+        # self.model.add(Activation('relu'))
         self.model.add(Dense(nb_actions))
         self.model.add(Activation('linear'))
 
@@ -51,7 +51,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnv()
-        steps = 2000000
+        steps = 40000
         window_size = 100
         points_to_plot = []
 
