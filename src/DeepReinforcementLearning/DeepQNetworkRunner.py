@@ -78,6 +78,6 @@ class DeepQNetworkRunner(Runner):
         for i in range(len(solution.allocation)):
             part = self.environment.parts[i]
             module = self.environment.modules[solution.allocation[i]]
-            if not part_fits_in_module(part, module):
+            if not part_fits_in_module(part, module) or module.capacity < 0:
                 return False
         return True

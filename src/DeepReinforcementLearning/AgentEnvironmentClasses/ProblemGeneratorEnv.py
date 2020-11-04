@@ -58,9 +58,11 @@ class ProblemGeneratorEnv(gym.Env):
             self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = 1000000 / self.wasted_space
         elif part_fits_in_module(self.part, self.modules[action]) and self.modules[action].capacity == 0:
+            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = -1
         else:
             jut = JutCalculator.jut(self.modules[action], self.part)
+            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = - jut / 1000000
 
         self.current_part_index = self.current_part_index + 1
