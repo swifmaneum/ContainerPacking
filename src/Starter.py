@@ -15,14 +15,14 @@ from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from ProblemGenerators.RealisticProblemGenerator import RealisticProblemGenerator
 
-solver_name = "gurobi"  # gecode, chuffed
+solver_name = "chuffed"  # gecode, chuffed, gurobi
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
 formal_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFormalModel.mzn"])
 minimal_space_model = Model(["./ConstraintProgramming/MiniZincModels/BinPacking.mzn",
                              "./ConstraintProgramming/MiniZincModels/BinPackingMinimalWastedSpace.mzn"])
 
 algorithms_to_test = [
-    # (BestFit(), "Best Fit"),
+    (BestFit(), "Best Fit"),
     # (FirstFit(), "First Fit"),
     # (BestFitDecreasing(), "Best Fit Decreasing"),
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
@@ -40,13 +40,13 @@ for model_runner, model_name in algorithms_to_test:
     data_collector = DataCollector(True)
 
     min_number_of_containers = 1
-    problem_generator = RealisticProblemGenerator()
-    # problem_generator = RandomProblemGenerator(None)
-    parts = [Part(1200, 1500, 1)]
-    # parts = []
-    for i in range(1, 2):
+    # problem_generator = RealisticProblemGenerator()
+    problem_generator = RandomProblemGenerator(1250) #1250/2500 works for 100 / 5000 works for 80 boards
+    # parts = [Part(950, 950, 1)]
+    parts = []
+    for i in range(1, 200):
 
-        # parts = parts + next(problem_generator)
+        parts = parts + next(problem_generator)
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(),
                                                                         min_number_of_containers)

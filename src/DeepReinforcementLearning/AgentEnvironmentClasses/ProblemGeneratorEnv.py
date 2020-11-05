@@ -61,18 +61,14 @@ class ProblemGeneratorEnv(gym.Env):
          """
         assert self.action_space.contains(action)
         self.solution.allocation.append(action)
-        if action < len(self.modules):
-            self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
+        self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
 
         if is_best_fitting_module(action, self.part, self.modules):
+            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = 1
         else:
-            self.reward = -1
-
-        # If we did not choose 'no module available' and there's still capacity in the chosen module
-        if action < len(self.modules) and self.modules[action].capacity > 0:
-            # Decrease the capacity of the chosen module
             self.modules[action].capacity = self.modules[action].capacity - 1
+            self.reward = -1
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
