@@ -15,14 +15,14 @@ from Plotter import Plotter
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from ProblemGenerators.RealisticProblemGenerator import RealisticProblemGenerator
 
-solver_name = "chuffed"  # gecode, chuffed, gurobi
+solver_name = "gurobi"  # gecode, chuffed, gurobi
 satisfaction_model = Model("./ConstraintProgramming/MiniZincModels/BinPacking.mzn")
 formal_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFormalModel.mzn"])
 minimal_space_model = Model(["./ConstraintProgramming/MiniZincModels/BinPacking.mzn",
                              "./ConstraintProgramming/MiniZincModels/BinPackingMinimalWastedSpace.mzn"])
 
 algorithms_to_test = [
-    (BestFit(), "Best Fit"),
+    # (BestFit(), "Best Fit"),
     # (FirstFit(), "First Fit"),
     # (BestFitDecreasing(), "Best Fit Decreasing"),
     # (MiniZincModelRunner(satisfaction_model, solver_name), "Satisfaction model"),
