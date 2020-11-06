@@ -22,7 +22,7 @@ kiwisolver==1.2.0
 lark-parser==0.8.5
 Markdown==3.2.2
 matplotlib==3.2.1
-minizinc==0.2.3
+minizinc==0.4.0
 numpy==1.18.5
 oauthlib==3.1.0
 opt-einsum==3.3.0
