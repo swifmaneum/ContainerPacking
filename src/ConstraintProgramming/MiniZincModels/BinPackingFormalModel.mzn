@@ -54,4 +54,5 @@ constraint forall(m in MODULE, p in PART)(
 
 constraint wasted_space_sum = sum(wasted_space);
 
-solve minimize wasted_space_sum;
+solve :: bool_search(allocation, first_fail, indomain_min)
+      minimize wasted_space_sum;
