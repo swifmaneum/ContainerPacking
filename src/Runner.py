@@ -1,8 +1,7 @@
 import time
-from abc import ABC, abstractmethod
 from datetime import timedelta
-
 from minizinc import Result, Status
+from abc import ABC, abstractmethod
 
 
 class Runner(ABC):

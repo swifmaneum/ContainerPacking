@@ -1,5 +1,4 @@
 import itertools
-
 from DataModels.Part import Part
 
 
