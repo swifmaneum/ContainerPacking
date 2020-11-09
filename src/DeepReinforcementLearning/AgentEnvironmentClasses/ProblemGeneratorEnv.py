@@ -27,17 +27,17 @@ class ProblemGeneratorEnv(gym.Env):
 
         observation_space_low = np.array([0.0, 0.0])
         observation_space_high = np.array([1.0, 1.0])
-        # for module in self.modules:
-        #     # Lower bound is 0, indicating there is no capacity in the module
-        #     observation_space_low = np.append(observation_space_low, 0)
-        #     # Upper bound is 1, indicating there is still capacity in the module
-        #     observation_space_high = np.append(observation_space_high, 1)
-        #
-        # for module in self.modules:
-        #     # Lower bound is 0, indicating there is no capacity in the module
-        #     observation_space_low = np.append(observation_space_low, 0)
-        #     # Upper bound is 1, indicating there is still capacity in the module
-        #     observation_space_high = np.append(observation_space_high, 1)
+        for module in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
+            observation_space_low = np.append(observation_space_low, 0)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
+
+        for module in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
+            observation_space_low = np.append(observation_space_low, 0)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
 
         for _ in self.modules:
             # Lower bound is 0, indicating there is no capacity in the module
@@ -73,7 +73,7 @@ class ProblemGeneratorEnv(gym.Env):
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
             # If we've reached the last part, end the episode by returning done is true
-            return np.empty(8), self.reward, True, {}
+            return np.empty(20), self.reward, True, {}
         else:
             # Else return the next part and continue the episode
             self.part = self.parts[self.current_part_index]
@@ -91,16 +91,16 @@ class ProblemGeneratorEnv(gym.Env):
     def build_observation(self, part):
         part_dimensions = (part.length / 22000, part.width / 22000)
 
-        # module_lengths = []
-        # for module in self.modules:
-        #     module_lengths.append(module.length / 22000)
-        #
-        # module_widths = []
-        # for module in self.modules:
-        #     module_widths.append(module.width / 22000)+ tuple(module_lengths) + tuple(module_widths)
+        module_lengths = []
+        for module in self.modules:
+            module_lengths.append(module.length / 22000)
+
+        module_widths = []
+        for module in self.modules:
+            module_widths.append(module.width / 22000)
 
         module_capacities = []
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
 
-        return np.array(part_dimensions + tuple(module_capacities))
+        return np.array(part_dimensions + tuple(module_lengths) + tuple(module_widths) + tuple(module_capacities))

@@ -41,12 +41,12 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
     # problem_generator = RealisticProblemGenerator()
-    problem_generator = RandomProblemGenerator(1250) #1250/2500 works for 100 / 5000 works for 80 boards
-    # parts = [Part(950, 950, 1)]
-    parts = []
-    for i in range(1, 200):
+    problem_generator = RandomProblemGenerator(None) #1250/2500 works for 100 / 5000 works for 80 boards
+    parts = [Part(3000, 5999, 1)]
+    # parts = []
+    for i in range(1, 100):
 
-        parts = parts + next(problem_generator)
+        # parts = parts + next(problem_generator)
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(),
                                                                         min_number_of_containers)
