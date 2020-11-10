@@ -1,16 +1,24 @@
 import gym
 import copy
+import random
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
 from Solution import Solution
+from Data.ModuleData import ModuleData
+from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
 
 
-class ProblemGeneratorEnv(gym.Env):
+class Environment(gym.Env):
 
-    def __init__(self, problem_data):
-        self.problem_data = problem_data
+    def __init__(self, problem_data=None):
+        if problem_data is None:
+            self.problem_data = self.generate_random_data()
+            self.training = True
+        else:
+            self.problem_data = problem_data
+            self.training = False
         self.parts = copy.deepcopy(self.problem_data["parts"])
         self.modules = copy.deepcopy(self.problem_data["modules"])
         self.solution = Solution()
@@ -43,19 +51,19 @@ class ProblemGeneratorEnv(gym.Env):
         """
         assert self.action_space.contains(action)
         self.solution.allocation.append(action)
+
         self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
+        self.modules[action].capacity = self.modules[action].capacity - 1
 
         if is_best_fitting_module(action, self.part, self.modules):
-            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = 1
         else:
-            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = -1
 
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
             # If we've reached the last part, end the episode by returning done is true
-            return np.empty(8), self.reward, True, {}
+            return np.empty(self.observation_space.shape[0]), self.reward, True, {}
         else:
             # Else return the next part and continue the episode
             self.part = self.parts[self.current_part_index]
@@ -63,6 +71,9 @@ class ProblemGeneratorEnv(gym.Env):
             return self.next_environment_observation, self.reward, False, {}
 
     def reset(self):
+        if self.training:
+            self.problem_data = self.generate_random_data()
+        self.parts = copy.deepcopy(self.problem_data["parts"])
         self.modules = copy.deepcopy(self.problem_data["modules"])
         self.solution = Solution()
         self.current_part_index = 0
@@ -71,10 +82,20 @@ class ProblemGeneratorEnv(gym.Env):
         return self.next_environment_observation
 
     def build_observation(self, part):
-        part_dimensions = (part.length / 22000, part.width / 22000)
+        # Scale the part dimensions to the interval [0,1]
+        part_dimensions = (part.length / 2200.0, part.width / 2200.0)
 
         module_capacities = []
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
-
         return np.array(part_dimensions + tuple(module_capacities))
+
+    def generate_random_data(self):
+        problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
+        parts = next(problem_generator)
+
+        modules = ModuleData.get_container_modules()
+        for module in modules:
+            module.capacity = random.randint(0, 2)
+
+        return {"modules": modules, "parts": parts}

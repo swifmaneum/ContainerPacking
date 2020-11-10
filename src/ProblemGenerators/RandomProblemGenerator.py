@@ -10,10 +10,8 @@ class RandomProblemGenerator(object):
         return self
 
     def __next__(self):
-        change_board_geometry_generation = random.randint(0, 1)
-
-        if change_board_geometry_generation == 0:
-            next_part = Part(random.randint(40, 22000), random.randint(40, 6000),  1)
+        if random.randint(0, 1) == 0:
+            next_part = Part(round(random.uniform(4, 600), 1), round(random.uniform(4, 2000), 1), 1)
         else:
-            next_part = Part(random.randint(40, 6000), random.randint(40, 22000), 1)
+            next_part = Part(round(random.uniform(4, 2000), 1), round(random.uniform(4, 600), 1), 1)
         return [next_part]
