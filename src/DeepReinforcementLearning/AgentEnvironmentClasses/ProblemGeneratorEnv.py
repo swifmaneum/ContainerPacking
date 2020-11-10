@@ -71,7 +71,7 @@ class ProblemGeneratorEnv(gym.Env):
         return self.next_environment_observation
 
     def build_observation(self, part):
-        part_dimensions = (part.length / 22000, part.width / 22000)
+        part_dimensions = (part.length / 2200.0, part.width / 2200.0)
 
         module_capacities = []
         for module in self.modules:

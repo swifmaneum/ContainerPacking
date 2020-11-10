@@ -77,8 +77,8 @@ class TrainingEnv(gym.Env):
         return self.next_environment_observation
 
     def build_observation(self, part):
-        # https: // stats.stackexchange.com / a / 70808
-        part_dimensions = (part.length / 22000, part.width / 22000)
+        # Scale the part dimensions to the interval [0,1]
+        part_dimensions = (part.length / 2200.0, part.width / 2200.0)
 
         module_capacities = []
         for module in self.modules:
@@ -87,13 +87,9 @@ class TrainingEnv(gym.Env):
 
     def generate_random_data(self):
         problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
-        parts = []
+        parts = next(problem_generator)
 
-        for i in range(1, 2):
-            parts = parts + next(problem_generator)
-
-        min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
-        modules = ModuleData.get_container_modules(min_number_of_containers)
+        modules = ModuleData.get_container_modules()
         for module in modules:
             module.capacity = random.randint(0, 2)
 
