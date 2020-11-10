@@ -1,5 +1,4 @@
 import math
-
 from Data.ModuleData import ModuleData
 from Heuristics.BestFit import BestFit
 

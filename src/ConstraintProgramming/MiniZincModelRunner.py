@@ -1,7 +1,6 @@
-from minizinc import Instance, Solver
-
-from ConstraintProgramming.ModelData import ModelData
 from Runner import Runner
+from minizinc import Instance, Solver
+from ConstraintProgramming.ModelData import ModelData
 
 backup_solver = "gecode"
 

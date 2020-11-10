@@ -1,16 +1,20 @@
 import gym
 import copy
+import random
 import numpy as np
 from gym import spaces
+from Helper import Helper
 from gym.utils import seeding
 from Solution import Solution
+from Data.ModuleData import ModuleData
+from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
 
 
-class ProblemGeneratorEnv(gym.Env):
+class TrainingEnv(gym.Env):
 
-    def __init__(self, problem_data):
-        self.problem_data = problem_data
+    def __init__(self):
+        self.problem_data = self.generate_random_data()
         self.parts = copy.deepcopy(self.problem_data["parts"])
         self.modules = copy.deepcopy(self.problem_data["modules"])
         self.solution = Solution()
@@ -63,6 +67,8 @@ class ProblemGeneratorEnv(gym.Env):
             return self.next_environment_observation, self.reward, False, {}
 
     def reset(self):
+        self.problem_data = self.generate_random_data()
+        self.parts = copy.deepcopy(self.problem_data["parts"])
         self.modules = copy.deepcopy(self.problem_data["modules"])
         self.solution = Solution()
         self.current_part_index = 0
@@ -71,10 +77,24 @@ class ProblemGeneratorEnv(gym.Env):
         return self.next_environment_observation
 
     def build_observation(self, part):
+        # https: // stats.stackexchange.com / a / 70808
         part_dimensions = (part.length / 22000, part.width / 22000)
 
         module_capacities = []
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
-
         return np.array(part_dimensions + tuple(module_capacities))
+
+    def generate_random_data(self):
+        problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
+        parts = []
+
+        for i in range(1, 2):
+            parts = parts + next(problem_generator)
+
+        min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
+        modules = ModuleData.get_container_modules(min_number_of_containers)
+        for module in modules:
+            module.capacity = random.randint(0, 2)
+
+        return {"modules": modules, "parts": parts}
