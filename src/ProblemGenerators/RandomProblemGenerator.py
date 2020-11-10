@@ -11,7 +11,7 @@ class RandomProblemGenerator(object):
 
     def __next__(self):
         if random.randint(0, 1) == 0:
-            next_part = Part(round(random.uniform(4, 600), 1), round(random.uniform(4, 2000), 1), 1)
+            next_part = Part(round(random.uniform(4, 600), 1), round(random.uniform(4, 2000), 1))
         else:
-            next_part = Part(round(random.uniform(4, 2000), 1), round(random.uniform(4, 600), 1), 1)
+            next_part = Part(round(random.uniform(4, 2000), 1), round(random.uniform(4, 600), 1))
         return [next_part]
