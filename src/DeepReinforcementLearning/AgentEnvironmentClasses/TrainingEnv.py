@@ -59,7 +59,7 @@ class TrainingEnv(gym.Env):
         self.current_part_index = self.current_part_index + 1
         if self.current_part_index == len(self.parts):
             # If we've reached the last part, end the episode by returning done is true
-            return np.empty(8), self.reward, True, {}
+            return np.empty(self.observation_space.shape[0]), self.reward, True, {}
         else:
             # Else return the next part and continue the episode
             self.part = self.parts[self.current_part_index]
