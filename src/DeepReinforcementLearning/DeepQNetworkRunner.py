@@ -9,7 +9,7 @@ from rl.memory import SequentialMemory
 from keras.layers import Dense, Activation, Flatten
 from DeepReinforcementLearning.AgentEnvironmentClasses.TrainingEnv import TrainingEnv
 from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import part_fits_in_module
-from DeepReinforcementLearning.AgentEnvironmentClasses.ProblemGeneratorEnv import ProblemGeneratorEnv
+from DeepReinforcementLearning.AgentEnvironmentClasses.EvaluationEnv import EvaluationEnv
 
 
 class DeepQNetworkRunner(Runner):
@@ -63,7 +63,7 @@ class DeepQNetworkRunner(Runner):
                               overwrite=True)
 
     def find_solution(self, data):
-        self.environment = ProblemGeneratorEnv(data)
+        self.environment = EvaluationEnv(data)
         self.dqn.test(self.environment, nb_episodes=1, visualize=False)
         if self.is_feasible(self.environment.solution):
             return self.environment.solution

@@ -7,7 +7,7 @@ from Solution import Solution
 from DeepReinforcementLearning.AgentEnvironmentClasses.aiRuleBase import is_best_fitting_module, calculate_wasted_space
 
 
-class ProblemGeneratorEnv(gym.Env):
+class EvaluationEnv(gym.Env):
 
     def __init__(self, problem_data):
         self.problem_data = problem_data
