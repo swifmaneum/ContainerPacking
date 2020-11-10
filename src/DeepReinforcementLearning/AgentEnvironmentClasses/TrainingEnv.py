@@ -3,7 +3,6 @@ import copy
 import random
 import numpy as np
 from gym import spaces
-from Helper import Helper
 from gym.utils import seeding
 from Solution import Solution
 from Data.ModuleData import ModuleData

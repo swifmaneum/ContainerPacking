@@ -34,7 +34,6 @@ class DeepQNetworkRunner(Runner):
 
         memory = SequentialMemory(limit=1000, window_length=1)
         policy = EpsGreedyQPolicy()
-        'Compare different configurations'
         self.dqn = DQNAgent(model=self.model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=100,
                             target_model_update=1e-2, enable_dueling_network=True, dueling_type='avg',
                             enable_double_dqn=True, policy=policy, gamma=0.0)
