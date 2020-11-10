@@ -46,13 +46,13 @@ class TrainingEnv(gym.Env):
         """
         assert self.action_space.contains(action)
         self.solution.allocation.append(action)
+
         self.solution.wasted_space_sum += calculate_wasted_space(self.part, self.modules[action])
+        self.modules[action].capacity = self.modules[action].capacity - 1
 
         if is_best_fitting_module(action, self.part, self.modules):
-            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = 1
         else:
-            self.modules[action].capacity = self.modules[action].capacity - 1
             self.reward = -1
 
         self.current_part_index = self.current_part_index + 1
