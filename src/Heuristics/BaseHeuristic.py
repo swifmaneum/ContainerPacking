@@ -27,7 +27,7 @@ class BaseHeuristic(Runner):
         raise NotImplementedError
 
     def preprocess_parts(self, parts):
-        # Optional method to be overriden by subclasses to do pre-processing, such as sorting
+        # Optional method to be overridden by subclasses to do pre-processing, such as sorting
         # If no pre-processing is required, simply do not override this method
         return parts
 
