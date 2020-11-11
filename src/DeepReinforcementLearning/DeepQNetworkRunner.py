@@ -52,7 +52,7 @@ class DeepQNetworkRunner(Runner):
 
     def find_solution(self, data):
         self.environment = Environment(data)
-        self.dqn.test(self.environment, nb_episodes=1, visualize=False)
+        self.dqn.test(self.environment, nb_episodes=1, visualize=False, verbose=0)
         if self.is_feasible(self.environment.solution):
             return self.environment.solution
         else:
