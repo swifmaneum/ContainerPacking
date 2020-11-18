@@ -1,10 +1,12 @@
 import numpy as np
 from pathlib import Path
+
+from DeepReinforcementLearning.AgentEnvironmentClasses.TrainingEnvironment import TrainingEnvironment
 from Runner import Runner
 from keras.optimizers import Adam
 from rl.agents.dqn import DQNAgent
 from keras.models import Sequential
-from rl.policy import EpsGreedyQPolicy
+from rl.policy import EpsGreedyQPolicy, BoltzmannQPolicy
 from rl.memory import SequentialMemory
 from keras.layers import Dense, Activation, Flatten
 from DeepReinforcementLearning.AgentEnvironmentClasses.Environment import Environment
@@ -22,20 +24,21 @@ class DeepQNetworkRunner(Runner):
 
         self.model = Sequential()
         self.model.add(Flatten(input_shape=(1,) + self.environment.observation_space.shape))
-        self.model.add(Dense(32))
+        self.model.add(Dense(64))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(32))
+        self.model.add(Dense(64))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(32))
+        self.model.add(Dense(64))
         self.model.add(Activation('relu'))
         self.model.add(Dense(nb_actions))
         self.model.add(Activation('linear'))
+        print(self.model.summary())
 
         memory = SequentialMemory(limit=1000, window_length=1)
         policy = EpsGreedyQPolicy()
         self.dqn = DQNAgent(model=self.model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=100,
                             target_model_update=1e-2, enable_dueling_network=True, dueling_type='avg',
-                            enable_double_dqn=True, policy=policy, gamma=0.0)
+                            enable_double_dqn=True, policy=policy)
         self.dqn.compile(Adam(lr=1e-3), metrics=['mae'])
 
         weights = Path('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f.index')
@@ -44,8 +47,8 @@ class DeepQNetworkRunner(Runner):
         self.dqn.load_weights('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f')
 
     def train(self):
-        self.environment = Environment()
-        steps = 100000
+        self.environment = TrainingEnvironment()
+        steps = 3000000
         self.dqn.fit(self.environment, nb_steps=steps, visualize=False, verbose=2)
         self.dqn.save_weights('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f',
                               overwrite=True)

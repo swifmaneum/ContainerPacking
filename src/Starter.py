@@ -1,5 +1,7 @@
 from Helper import Helper
 from minizinc import Model
+
+from Heuristics.BestFitDecreasing import BestFitDecreasing
 from Plotter import Plotter
 from Data.ModuleData import ModuleData
 from Heuristics.BestFit import BestFit
@@ -8,15 +10,31 @@ from ConstraintProgramming.MiniZincModelRunner import MiniZincModelRunner
 from ProblemGenerators.RandomProblemGenerator import RandomProblemGenerator
 from DeepReinforcementLearning.DeepQNetworkRunner import DeepQNetworkRunner
 
-solver_name = "gurobi"  # gecode, gurobi
-
 minizinc_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFloat.mzn"])
+minizinc_model_sat = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFloatSat.mzn"])
+
+'''
+--------------------------------------------------------------------------------------
+---------------- Edit this section according to your preferences ---------------------
+--------------------------------------------------------------------------------------
+'''
+number_of_parts = 100
+random_seed = 112
+
+solver_name = "gurobi"  # gecode, gurobi
 
 algorithms_to_test = [
     (BestFit(), "Best Fit"),
-    (MiniZincModelRunner(minizinc_model, solver_name), "MiniZinc - Gurobi"),
+    #(BestFitDecreasing(), "Best Fit Descreasing"),
+    #(MiniZincModelRunner(minizinc_model, solver_name), "MiniZinc - Gurobi"),
+    #(MiniZincModelRunner(minizinc_model_sat, solver_name), "MiniZinc - Gurobi - SAT"),
     (DeepQNetworkRunner(), "DQN")
 ]
+'''
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+'''
 
 plot = Plotter()
 runtime_figure = plot.add_figure("Runtime", "Number of Parts", "Runtime in seconds")
@@ -27,10 +45,10 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
 
-    problem_generator = RandomProblemGenerator(2500)  # 1250/2500 works for 100 / 5000 works for 80 boards
+    problem_generator = RandomProblemGenerator(random_seed)
 
     parts = []
-    for i in range(1, 200):
+    for i in range(number_of_parts):
 
         parts = parts + next(problem_generator)
 
