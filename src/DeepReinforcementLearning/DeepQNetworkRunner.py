@@ -1,6 +1,7 @@
 import numpy as np
 from pathlib import Path
 
+from DeepReinforcementLearning.AgentEnvironmentClasses.DecreasingEpsGreedyQPolicy import DecreasingEpsGreedyQPolicy
 from DeepReinforcementLearning.AgentEnvironmentClasses.TrainingEnvironment import TrainingEnvironment
 from Runner import Runner
 from keras.optimizers import Adam
@@ -35,7 +36,7 @@ class DeepQNetworkRunner(Runner):
         print(self.model.summary())
 
         memory = SequentialMemory(limit=1000, window_length=1)
-        policy = EpsGreedyQPolicy()
+        policy = DecreasingEpsGreedyQPolicy()
         self.dqn = DQNAgent(model=self.model, nb_actions=nb_actions, memory=memory, nb_steps_warmup=100,
                             target_model_update=1e-2, enable_dueling_network=True, dueling_type='avg',
                             enable_double_dqn=True, policy=policy)
@@ -48,7 +49,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = TrainingEnvironment()
-        steps = 3000000
+        steps = 100000
         self.dqn.fit(self.environment, nb_steps=steps, visualize=False, verbose=2)
         self.dqn.save_weights('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f',
                               overwrite=True)

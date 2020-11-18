@@ -102,7 +102,7 @@ class TrainingEnvironment(gym.Env):
     def generate_random_data(self):
         problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
         parts = []
-        for i in range(self.episode * 5):
+        for i in range(self.episode):
             parts = parts + next(problem_generator)
 
         min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
