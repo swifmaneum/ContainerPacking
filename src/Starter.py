@@ -13,8 +13,8 @@ solver_name = "gurobi"  # gecode, gurobi
 minizinc_model = Model(["./ConstraintProgramming/MiniZincModels/BinPackingFloat.mzn"])
 
 algorithms_to_test = [
-    (BestFit(), "Best Fit"),
-    (MiniZincModelRunner(minizinc_model, solver_name), "MiniZinc - Gurobi"),
+    # (BestFit(), "Best Fit"),
+    # (MiniZincModelRunner(minizinc_model, solver_name), "MiniZinc - Gurobi"),
     (DeepQNetworkRunner(), "DQN")
 ]
 
@@ -27,7 +27,7 @@ for model_runner, model_name in algorithms_to_test:
 
     min_number_of_containers = 1
 
-    problem_generator = RandomProblemGenerator(2500)  # 1250/2500 works for 100 / 5000 works for 80 boards
+    problem_generator = RandomProblemGenerator(2)
 
     parts = []
     for i in range(1, 200):

@@ -45,7 +45,7 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = Environment()
-        steps = 100000
+        steps = 1500000
         self.dqn.fit(self.environment, nb_steps=steps, visualize=False, verbose=2)
         self.dqn.save_weights('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f',
                               overwrite=True)
