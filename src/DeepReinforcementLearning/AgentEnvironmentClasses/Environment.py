@@ -3,6 +3,7 @@ import copy
 import random
 import numpy as np
 from gym import spaces
+from Helper import Helper
 from gym.utils import seeding
 from Solution import Solution
 from Data.ModuleData import ModuleData
@@ -30,6 +31,16 @@ class Environment(gym.Env):
         observation_space_low = np.array([0.0, 0.0])
         observation_space_high = np.array([1.0, 1.0])
 
+        for _ in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
+            observation_space_low = np.append(observation_space_low, 0)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
+        for _ in self.modules:
+            # Lower bound is 0, indicating there is no capacity in the module
+            observation_space_low = np.append(observation_space_low, 0)
+            # Upper bound is 1, indicating there is still capacity in the module
+            observation_space_high = np.append(observation_space_high, 1)
         for _ in self.modules:
             # Lower bound is 0, indicating there is no capacity in the module
             observation_space_low = np.append(observation_space_low, 0)
@@ -85,16 +96,25 @@ class Environment(gym.Env):
         # Scale the part dimensions to the interval [0,1]
         part_dimensions = (part.length / 2200.0, part.width / 2200.0)
 
+        module_lengths = []
+        for module in self.modules:
+            module_lengths.append(module.length / 2200.0)
+
+        module_widths = []
+        for module in self.modules:
+            module_widths.append(module.width / 2200.0)
+
         module_capacities = []
         for module in self.modules:
             module_capacities.append(1 if module.capacity > 0 else 0)
-        return np.array(part_dimensions + tuple(module_capacities))
+        return np.array(part_dimensions + tuple(module_lengths) + tuple(module_widths) + tuple(module_capacities))
 
     def generate_random_data(self):
         problem_generator = RandomProblemGenerator(np.random.randint(1, 10000))
         parts = next(problem_generator)
 
-        modules = ModuleData.get_container_modules()
+        min_number_of_containers = Helper.find_min_number_of_containers(parts, ModuleData.get_container_modules(), 1)
+        modules = ModuleData.get_container_modules(min_number_of_containers)
         for module in modules:
             module.capacity = random.randint(0, 2)
 

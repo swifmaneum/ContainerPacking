@@ -5,7 +5,6 @@ class ModelData(object):
         self.lengths = list(map(lambda part: part.length, parts))
         self.widths = list(map(lambda part: part.width, parts))
         self.weights = list(map(lambda part: 1, parts))
-        self.groups = list(map(lambda part: part.group, parts))
 
         self.n_modules = len(modules)
         self.module_lengths = list(map(lambda module: module.length, modules))

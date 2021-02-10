@@ -45,14 +45,14 @@ class DeepQNetworkRunner(Runner):
 
     def train(self):
         self.environment = Environment()
-        steps = 100000
+        steps = 1500000
         self.dqn.fit(self.environment, nb_steps=steps, visualize=False, verbose=2)
         self.dqn.save_weights('DeepReinforcementLearning/AgentEnvironmentClasses/Weights/dqn_sorting_weights.h5f',
                               overwrite=True)
 
     def find_solution(self, data):
         self.environment = Environment(data)
-        self.dqn.test(self.environment, nb_episodes=1, visualize=False)
+        self.dqn.test(self.environment, nb_episodes=1, visualize=False, verbose=0)
         if self.is_feasible(self.environment.solution):
             return self.environment.solution
         else:

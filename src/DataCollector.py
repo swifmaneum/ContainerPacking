@@ -2,7 +2,7 @@ class DataCollector(object):
 
     def __init__(self, print_collected_data=False):
         self.print_enabled = print_collected_data
-        self.attribute_data = {'time': [], 'wasted_space_sum': [], 'grouped_parts': []}
+        self.attribute_data = {'time': [], 'wasted_space_sum': []}
 
     def collect(self, parts, result):
         for attribute in self.attribute_data:
